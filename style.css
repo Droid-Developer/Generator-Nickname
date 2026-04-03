@@ -1,0 +1,253 @@
+/* Обнуление и базовая настройка */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    background-color: #0f0f0f; /* Глубокий черный */
+    color: #efefef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Контейнер с сильным закруглением */
+.container {
+    width: 100%;
+    max-width: 440px;
+    background-color: #1a1a1a;
+    padding: 30px;
+    border-radius: 28px; /* Сильное закругление интерфейса */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+    font-size: 20px;
+    margin-bottom: 25px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+}
+
+h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #666;
+    margin: 30px 0 12px 0;
+}
+
+/* Сетка настроек */
+.settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 12px;
+    margin-bottom: 8px;
+    color: #999;
+    padding-left: 5px;
+}
+
+/* Скругленные поля ввода */
+input[type="number"], 
+input[type="text"], 
+select {
+    background-color: #252525;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 14px; /* Округлые поля */
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+input:focus, select:focus {
+    border-color: #666;
+    background-color: #2a2a2a;
+}
+
+/* Опции и чекбоксы */
+.options {
+    margin-top: 25px;
+    display: grid;
+    gap: 14px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+    color: #ccc;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+/* Кастомный круглый чекбокс */
+.checkmark {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background-color: #252525;
+    border: 2px solid #444;
+    border-radius: 8px; /* Слегка закругленные углы чекбокса */
+    margin-right: 12px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+/* Состояние: Нажат (Серый акцент вместо зеленого) */
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #e0e0e0; /* Светло-серый активный цвет */
+    border-color: #e0e0e0;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid #1a1a1a; /* Темная галочка на сером фоне */
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Кнопки */
+.actions {
+    margin-top: 30px;
+}
+
+button {
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    border-radius: 16px; /* Очень круглые кнопки */
+    padding: 15px;
+    border: none;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+button:active {
+    transform: scale(0.96);
+}
+
+.btn-primary {
+    background: #ffffff; /* Белая/светло-серая кнопка */
+    color: #000;
+    font-size: 15px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary:hover {
+    background: #e0e0e0;
+}
+
+.btn-secondary-group {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-secondary-group button {
+    background: #2a2a2a;
+    color: #bbb;
+    font-size: 13px;
+}
+
+.btn-secondary-group button:hover {
+    background: #333;
+    color: #fff;
+}
+
+/* Блок результата */
+.result-box {
+    background: #252525;
+    padding: 20px;
+    border-radius: 18px; /* Закругленный блок результата */
+    min-height: 70px;
+    font-size: 22px;
+    color: #ffffff;
+    border: 1px solid #333;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-break: break-all;
+}
+
+/* История */
+.history-box {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.8;
+    max-height: 150px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* Кастомный скроллбар для истории */
+.history-box::-webkit-scrollbar {
+    width: 4px;
+}
+.history-box::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 10px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #252525;
+    margin: 12px 0;
+}
+
+/* Адаптивность */
+@media (max-width: 400px) {
+    .container {
+        padding: 20px;
+        border-radius: 20px;
+    }
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+    .full-width {
+        grid-column: span 1;
+    }
+    .btn-secondary-group {
+        flex-direction: column;
+    }
+}

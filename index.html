@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Генератор никнеймов PRO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Генератор никнеймов</h2>
+
+    <div class="settings-grid">
+        <div class="input-group">
+            <label for="length">Длина:</label>
+            <input type="number" id="length" value="8" min="3" max="20">
+        </div>
+
+        <div class="input-group">
+            <label for="count">Количество:</label>
+            <input type="number" id="count" value="1" min="1" max="20">
+        </div>
+
+        <div class="input-group full-width">
+            <label for="mode">Режим:</label>
+            <select id="mode">
+                <option value="readable">Читаемый</option>
+                <option value="random">Полный рандом</option>
+                <option value="vowelHeavy">Больше гласных</option>
+                <option value="consonantHeavy">Больше согласных</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="prefix">Префикс:</label>
+            <input type="text" id="prefix" placeholder="x_">
+        </div>
+
+        <div class="input-group">
+            <label for="suffix">Суффикс:</label>
+            <input type="text" id="suffix" placeholder="_pro">
+        </div>
+
+        <div class="input-group full-width">
+            <label for="exclude">Исключить буквы:</label>
+            <input type="text" id="exclude" placeholder="abc">
+        </div>
+    </div>
+
+    <div class="options">
+        <label class="checkbox-container">
+            <input type="checkbox" id="numbers" checked> 
+            <span class="checkmark"></span> Добавлять цифры
+        </label>
+        <label class="checkbox-container">
+            <input type="checkbox" id="upperFirst" checked> 
+            <span class="checkmark"></span> Заглавная первая буква
+        </label>
+        <label class="checkbox-container">
+            <input type="checkbox" id="upperAll"> 
+            <span class="checkmark"></span> ВСЕ БУКВЫ CAPS
+        </label>
+        <label class="checkbox-container">
+            <input type="checkbox" id="noRepeat"> 
+            <span class="checkmark"></span> Без повторов подряд
+        </label>
+    </div>
+
+    <div class="actions">
+        <button onclick="generate()" class="btn-primary">СГЕНЕРИРОВАТЬ</button>
+        <div class="btn-secondary-group">
+            <button onclick="copyResult()">Копировать</button>
+            <button onclick="clearHistory()">Очистить</button>
+        </div>
+    </div>
+
+    <div class="output-section">
+        <h3>Результат</h3>
+        <div id="result" class="result-box">---</div>
+    </div>
+
+    <div class="history-section">
+        <h3>История</h3>
+        <div id="history" class="history-box"></div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

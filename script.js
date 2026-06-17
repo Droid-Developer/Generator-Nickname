@@ -1,4 +1,3 @@
-// Локализация приложения (6 языков) с переводом подвала
 const i18n = {
     ru: {
         title: "Генератор никнеймов", tabMain: "Генератор", tabSettings: "Настройки",
@@ -60,7 +59,18 @@ const App = {
     currentLang: "ru",
 
     init() {
-        this.changeLanguage("ru");
+        // Восстановление темы из памяти GitHub Pages
+        const savedTheme = localStorage.getItem("nn_theme") || "dark";
+        document.documentElement.setAttribute("data-theme", savedTheme);
+
+        // Восстановление языка
+        const savedLang = localStorage.getItem("nn_lang") || "ru";
+        document.getElementById("lang-select").value = savedLang;
+        this.changeLanguage(savedLang);
+
+        // Восстановление истории
+        const savedHistory = JSON.parse(localStorage.getItem("nn_history")) || [];
+        savedHistory.forEach(nick => this.addHistoryItemToDOM(nick));
     },
 
     switchTab(tabId) {
@@ -79,17 +89,18 @@ const App = {
     toggleTheme() {
         const root = document.documentElement;
         const currentTheme = root.getAttribute('data-theme');
-        root.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        root.setAttribute('data-theme', newTheme);
+        localStorage.setItem("nn_theme", newTheme);
     },
 
     changeLanguage(lang) {
         this.currentLang = lang;
+        localStorage.setItem("nn_lang", lang);
         const data = i18n[lang];
         
-        // Направление текста (RTL)
         document.documentElement.dir = data.rtl ? "rtl" : "ltr";
 
-        // Перевод текстовых элементов
         document.getElementById("txt-title").innerText = data.title;
         document.getElementById("tab-main").innerText = data.tabMain;
         document.getElementById("tab-settings").innerText = data.tabSettings;
@@ -114,8 +125,6 @@ const App = {
         document.getElementById("btn-generate").innerText = data.btnGenerate;
         document.getElementById("btn-copy").innerText = data.btnCopy;
         document.getElementById("txt-history-title").innerText = data.txtHistory;
-        
-        // ПЕРЕВОД ПОДВАЛА
         document.getElementById("txt-footer").innerText = data.footerText;
     },
 
@@ -204,25 +213,33 @@ const App = {
         document.getElementById("result").innerHTML = results.join("<br>");
         this.switchTab('main'); 
         
-        let history = document.getElementById("history");
-        const currentLangData = i18n[this.currentLang];
-
+        // Сохранение истории в LocalStorage
+        let savedHistory = JSON.parse(localStorage.getItem("nn_history")) || [];
         results.forEach(nick => {
-            let item = document.createElement("span");
-            item.className = "history-item";
-            item.innerText = nick;
-            item.onclick = () => {
-                navigator.clipboard.writeText(nick);
-                let originalText = item.innerText;
-                item.innerText = currentLangData.copied;
-                item.classList.add("copied");
-                setTimeout(() => {
-                    item.innerText = originalText;
-                    item.classList.remove("copied");
-                }, 900);
-            };
-            history.prepend(item);
+            this.addHistoryItemToDOM(nick);
+            savedHistory.unshift(nick);
         });
+        
+        if(savedHistory.length > 50) savedHistory = savedHistory.slice(0, 50);
+        localStorage.setItem("nn_history", JSON.stringify(savedHistory));
+    },
+
+    addHistoryItemToDOM(nick) {
+        let history = document.getElementById("history");
+        let item = document.createElement("span");
+        item.className = "history-item";
+        item.innerText = nick;
+        item.onclick = () => {
+            navigator.clipboard.writeText(nick);
+            let originalText = item.innerText;
+            item.innerText = i18n[this.currentLang].copied;
+            item.classList.add("copied");
+            setTimeout(() => {
+                item.innerText = originalText;
+                item.classList.remove("copied");
+            }, 900);
+        };
+        history.prepend(item);
     },
 
     copyResult(btn) {
@@ -244,6 +261,7 @@ const App = {
 
     clearHistory() {
         document.getElementById("history").innerHTML = "";
+        localStorage.removeItem("nn_history");
     }
 };
 
